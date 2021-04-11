@@ -14,7 +14,7 @@ export class ExamsComponent implements OnInit, OnChanges {
 
   constructor(private examService: ExamsService) { }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.exams = null;
     this.getExames();
   }
@@ -25,11 +25,10 @@ export class ExamsComponent implements OnInit, OnChanges {
 
   getExames(): void {
     if (!this.exams) {
-      this.examService.getByPatientId(this.patientId).subscribe(
-        res => {
-          this.exams = res;
-        }
-      );
+      this.examService.getByPatientId(this.patientId)
+        .subscribe(
+          value => this.exams = value
+        );
     }
   }
 

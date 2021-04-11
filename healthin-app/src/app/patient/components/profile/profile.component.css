@@ -1,0 +1,9 @@
+.mat-form-field {
+    margin-left: 8px;
+}
+.actions {
+    padding: 1vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}

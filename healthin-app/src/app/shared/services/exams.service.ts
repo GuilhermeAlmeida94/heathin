@@ -22,6 +22,6 @@ export class ExamsService {
   constructor() { }
 
   getByPatientId(patientId: string): Observable<Exam[]> {
-    return of(exams.filter(x => x.patient_id == patientId)).pipe(delay(2000));
+    return of(exams.filter(x => x.patient_id === patientId)).pipe(delay(2000));
   }
 }

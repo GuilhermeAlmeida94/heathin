@@ -16,7 +16,8 @@ export class PatientComponent implements OnInit {
   navLinks: any[];
   form: FormGroup;
   patientOptions$: Observable<Patient[]>;
-  patients: Patient[];
+  //patients: Patient[];
+  patientSelected: Patient;
 
   constructor(private patientService: PatientService) {
     this.user = 'User';
@@ -24,11 +25,9 @@ export class PatientComponent implements OnInit {
       patientName: new FormControl()
     });
 
-    this.patientService.getAll().subscribe(
-      res => {
-        this.patients = res;
-      }
-    );
+    // this.patientService.getAll().subscribe(
+    //   value => this.patients = value
+    // );
     this.navLinks = [
         {
             label: 'Profile',
@@ -45,11 +44,16 @@ export class PatientComponent implements OnInit {
   ngOnInit(): void {
     this.patientOptions$ = this.form.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(typeof(value.patientName) === 'string' && value !== '' ? value.patientName : ''))
+      map(value =>
+        this.filter(
+          typeof(value.patientName) === 'string' &&
+          value.patientName ? value.patientName : ''
+        )
+      )
     );
   }
 
-  private _filter(value: string): Patient[] {
+  private filter(value: string): Patient[] {
     let patients: Patient[] = null;
     this.patientService.getByName(value).subscribe(res => {
       patients = res;
@@ -62,6 +66,7 @@ export class PatientComponent implements OnInit {
   }
 
   optionSelected(patient: Patient): void {
+    this.patientSelected = patient;
     this.patientId = patient.id;
   }
 }

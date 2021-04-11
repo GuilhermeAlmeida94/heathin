@@ -1,3 +1,34 @@
-<p>
-  profile works!
-</p>
+<div *ngIf="!patient" class="center-spinner mt-3">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="patient">
+  <div class="actions">
+    <button 
+      *ngIf="formGroup.disabled"
+      mat-raised-button
+      (click)="formGroup.enable()"
+      color="primary">Edit</button>
+    <button
+      *ngIf="formGroup.enabled"
+      mat-raised-button
+      (click)="formGroup.disable()"
+      color="primary">Save</button>
+  </div>
+  <form [formGroup]="formGroup">
+    <mat-form-field
+      appearance="outline">
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        formControlName="name">
+    </mat-form-field>
+    <mat-form-field
+      appearance="outline">
+      <mat-label>Document</mat-label>
+      <input
+        matInput
+        formControlName="document">
+    </mat-form-field>
+  </form>
+</div>

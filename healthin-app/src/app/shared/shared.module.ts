@@ -17,7 +17,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
     ReactiveFormsModule,
     MatTabsModule,
     MatListModule,
@@ -34,7 +33,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
   ],
   exports: [
     CommonModule,
-    FormsModule,
     ReactiveFormsModule,
     MatTabsModule,
     MatListModule,
