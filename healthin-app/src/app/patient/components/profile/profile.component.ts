@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Patient } from 'src/app/shared/interfaces/patient';
+import { Phone } from 'src/app/shared/interfaces/phone';
 import { PatientService } from 'src/app/shared/services/patient.service';
 
 @Component({
@@ -21,9 +22,39 @@ export class ProfileComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
       name: { value: '', disabled: true },
-      document: { value: '', disabled: true }
+      document: { value: '', disabled: true },
+      phones: { value: '', disabled: true }
     });
     this.getPatient();
+  }
+
+  get phones(): FormArray {
+    return this.formGroup.get('phones') as FormArray;
+  }
+
+  addPhone(): void {
+    this.phones.push(this.buildPhone());
+  }
+  removePhoneAt(i: number): void {
+    this.phones.removeAt(i);
+  }
+
+  private buildPhone(phone?: Phone): FormGroup {
+    const disabled = this.formGroup ? this.formGroup.disabled : true;
+    return this.formBuilder.group({
+      type: { value: phone ? phone.type : '', disabled },
+      number: { value: phone ? phone.number : '', disabled }
+    });
+  }
+
+  private buildPhones(phones: Phone[]): FormArray {
+    const phonesFormArray = this.formBuilder.array([]);
+    phonesFormArray.disable();
+    for (const phone of phones) {
+      phonesFormArray.push(this.buildPhone(phone));
+    }
+
+    return phonesFormArray;
   }
 
   ngOnChanges(): void {
@@ -41,6 +72,14 @@ export class ProfileComponent implements OnInit, OnChanges {
         name: this.patient.name,
         document: this.patient.document
       });
+
+      this.formGroup.setControl('phones', this.buildPhones(this.patient.phones || []));
+      // if(this.patient.phones) {
+      //   this.phones.controls[0].patchValue({
+      //     type: this.patient.phones[0].type,
+      //     number: this.patient.phones[0].number
+      //   });
+      // }
     }
   }
 

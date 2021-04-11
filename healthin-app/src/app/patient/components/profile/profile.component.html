@@ -4,31 +4,57 @@
 
 <div *ngIf="patient">
   <div class="actions">
-    <button 
-      *ngIf="formGroup.disabled"
-      mat-raised-button
-      (click)="formGroup.enable()"
-      color="primary">Edit</button>
-    <button
-      *ngIf="formGroup.enabled"
-      mat-raised-button
-      (click)="formGroup.disable()"
-      color="primary">Save</button>
+    <button *ngIf="formGroup.disabled"
+            mat-raised-button
+            (click)="formGroup.enable()"
+            color="primary">Edit</button>
+    <button *ngIf="formGroup.enabled"
+            mat-raised-button
+          (click)="formGroup.disable()"
+          color="primary">Save</button>
   </div>
   <form [formGroup]="formGroup">
-    <mat-form-field
-      appearance="outline">
+    <h4>Main Data</h4>
+    <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
       <input
         matInput
         formControlName="name">
     </mat-form-field>
-    <mat-form-field
-      appearance="outline">
+    <mat-form-field appearance="outline">
       <mat-label>Document</mat-label>
       <input
         matInput
         formControlName="document">
     </mat-form-field>
+
+    <div class="section">
+      Phones
+      <button *ngIf="formGroup.enabled"
+              mat-stroked-button
+              (click)="addPhone()"
+              color="primary">Add new phone</button>      
+    </div>
+    <div formArrayName="phones"
+         *ngFor="let phone of phones.controls; let i=index">
+      <div [formGroupName]="i">
+        <mat-form-field appearance="outline">
+        <mat-label>Phone Type</mat-label>
+        <input matInput
+               formControlName="type">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Phone Number</mat-label>
+          <input matInput
+                formControlName="number">
+        </mat-form-field>
+        <button *ngIf="formGroup.enabled"
+                mat-stroked-button
+                (click)="removePhoneAt(i)"
+                color="primary">Remove phone</button> 
+      </div>
+    </div>
   </form>
 </div>
+
+{{ formGroup.value | json}}
