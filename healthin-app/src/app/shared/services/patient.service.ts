@@ -4,19 +4,29 @@ import { delay } from 'rxjs/operators';
 import { Patient } from '../interfaces/patient';
 
 const patients: Patient[] = [
-  {id: '1', name: 'Will', document: '1111111111111111',
+  {id: '1',
+    name: 'Will',
+    documentType: 'CPF',
+    document: '87050602060',
+    email: 'test@gmail.com',
     phones: [
       { type: 'Home', number: '12121212' },
       { type: 'Cellphone', number: '34343434' }
     ]
-  },
-  {id: '2', name: 'Wanessa', document: '2222222222222222',
+  }  as Patient,
+  {id: '2', name: 'Wanessa',
+    documentType: 'CNPJ',
+    document: '11444777000161',
     phones: [
       { type: 'Cellphone', number: '34343434' } ]
-  },
-  {id: '3', name: 'Joanne', document: '3333333333333333'} as Patient,
+  }  as Patient,
+  {
+    id: '3', name: 'Joanne',
+    documentType: 'CNPJ',
+    document: '20458214000113'
+  } as Patient,
   {id: '4', name: 'Michael', document: '4444444444444444'} as Patient,
-  {id: '5', name: 'Jonh', document: '5555555555555555'} as Patient,
+  {id: '5', name: 'Jonh', document: '5555555555555555', email: 'test@gmail.com'} as Patient,
   {id: '6', name: 'Joan', document: '6666666666666666'} as Patient,
   {id: '7', name: 'Ester', document: '7777777777777777'} as Patient,
   {id: '9', name: 'Leslie', document: '9999999999999999'} as Patient,

@@ -17,15 +17,23 @@
     <h4>Main Data</h4>
     <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
-      <input
-        matInput
-        formControlName="name">
+      <input matInput
+             formControlName="name">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Document Type</mat-label>
+      <input matInput
+             formControlName="documentType">
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Document</mat-label>
-      <input
-        matInput
-        formControlName="document">
+      <input matInput
+             formControlName="document">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>E-mail</mat-label>
+      <input matInput
+             formControlName="email">
     </mat-form-field>
 
     <div class="section">
@@ -58,3 +66,4 @@
 </div>
 
 {{ formGroup.value | json}}
+{{ formGroup.errors | json}}

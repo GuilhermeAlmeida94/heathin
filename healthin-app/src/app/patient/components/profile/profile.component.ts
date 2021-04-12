@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Patient } from 'src/app/shared/interfaces/patient';
 import { Phone } from 'src/app/shared/interfaces/phone';
+import { MyValidators } from 'src/app/shared/my-validators';
 import { PatientService } from 'src/app/shared/services/patient.service';
 
 @Component({
@@ -21,11 +22,18 @@ export class ProfileComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      name: { value: '', disabled: true },
-      document: { value: '', disabled: true },
+      name: [{ value: '', disabled: true }, Validators.required],
+      documentType: [{ value: '', disabled: true }, Validators.required],
+      document: [{ value: '', disabled: true}, [MyValidators.noWhitespace]],
+      email: [{ value: '', disabled: true }, Validators.email],
       phones: { value: '', disabled: true }
     });
+
     this.getPatient();
+  }
+
+  changeDocumentValidation(): void {
+
   }
 
   get phones(): FormArray {
@@ -68,19 +76,32 @@ export class ProfileComponent implements OnInit, OnChanges {
         .subscribe(
           value => this.patient = value
         );
+
+      this.updateDocumentTypeValidator();
       this.formGroup.patchValue({
         name: this.patient.name,
-        document: this.patient.document
+        documentType: this.patient.documentType,
+        document: this.patient.document,
+        email: this.patient.email
       });
 
-      this.formGroup.setControl('phones', this.buildPhones(this.patient.phones || []));
-      // if(this.patient.phones) {
-      //   this.phones.controls[0].patchValue({
-      //     type: this.patient.phones[0].type,
-      //     number: this.patient.phones[0].number
-      //   });
-      // }
+
+      this.formGroup.setControl('phones',
+        this.buildPhones(this.patient.phones || []));
     }
+  }
+
+  private updateDocumentTypeValidator(): void {
+    const documentForm = this.formGroup.get('document');
+    if (this.patient.documentType === 'CPF') {
+      documentForm.setValidators(
+        [Validators.required, MyValidators.noWhitespace, MyValidators.cpf]);
+    }
+    if (this.patient.documentType === 'CNPJ') {
+      documentForm.setValidators(
+        [Validators.required, MyValidators.noWhitespace, MyValidators.cnpj]);
+    }
+    documentForm.updateValueAndValidity();
   }
 
   changeToEditMode(): void {
