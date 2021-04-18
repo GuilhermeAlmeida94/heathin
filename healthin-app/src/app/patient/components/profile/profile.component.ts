@@ -25,17 +25,35 @@ export class ProfileComponent implements OnInit, OnChanges {
       name: [{ value: '', disabled: true }, Validators.required],
       documentType: [{ value: '', disabled: true }, Validators.required],
       document: [{ value: '', disabled: true}, [MyValidators.noWhitespace]],
+      notification: [{ value: '', disabled: true }, Validators.required],
       email: [{ value: '', disabled: true }, Validators.email],
       phones: { value: '', disabled: true }
     });
 
+    this.formGroup.get('notification').valueChanges.subscribe(
+      value => this.setNotification(value)
+    );
     this.getPatient();
   }
 
-  changeDocumentValidation(): void {
-
+  setNotification(notificationType: string): void {
+    const email = this.formGroup.get('email');
+    const phones = this.formGroup.get('phones');
+    if (notificationType === 'email') {
+      email.setValidators([Validators.required, Validators.email]);
+      phones.clearValidators();
+    }
+    else {
+      email.setValidators(Validators.email);
+      phones.setValidators([Validators.required, Validators.minLength(1)]);
+    }
+    email.updateValueAndValidity();
+    phones.updateValueAndValidity();
   }
 
+  get len(): number {
+    return (this.formGroup.get('phones') as FormArray).length;
+  }
   get phones(): FormArray {
     return this.formGroup.get('phones') as FormArray;
   }
@@ -108,7 +126,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     this.formGroup.enable();
   }
 
-  changeToShowMode(): void {
+  save(): void {
     this.formGroup.disable();
   }
 

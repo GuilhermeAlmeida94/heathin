@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { filter, map, startWith } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 import { Patient } from 'src/app/shared/interfaces/patient';
 import { PatientService } from 'src/app/shared/services/patient.service';
 
@@ -14,20 +14,16 @@ export class PatientComponent implements OnInit {
   user: string;
   patientId: string;
   navLinks: any[];
-  form: FormGroup;
+  formGroup: FormGroup;
   patientOptions$: Observable<Patient[]>;
-  //patients: Patient[];
   patientSelected: Patient;
 
   constructor(private patientService: PatientService) {
     this.user = 'User';
-    this.form = new FormGroup({
+    this.formGroup = new FormGroup({
       patientName: new FormControl()
     });
 
-    // this.patientService.getAll().subscribe(
-    //   value => this.patients = value
-    // );
     this.navLinks = [
         {
             label: 'Profile',
@@ -42,8 +38,9 @@ export class PatientComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.patientOptions$ = this.form.valueChanges.pipe(
-      startWith(''),
+    this.patientOptions$ = this.formGroup
+    .valueChanges.pipe(
+      debounceTime(1000), // Waits 1 second to the last request, to make the request with the most recent value
       map(value =>
         this.filter(
           typeof(value.patientName) === 'string' &&

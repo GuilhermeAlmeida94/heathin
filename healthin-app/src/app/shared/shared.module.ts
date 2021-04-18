@@ -13,6 +13,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatSidenavModule,
     MatIconModule,
     MatAutocompleteModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatRadioModule,
   ],
   exports: [
     CommonModule,
@@ -45,7 +47,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatSidenavModule,
     MatIconModule,
     MatAutocompleteModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatRadioModule,
   ]
 })
 export class SharedModule { }

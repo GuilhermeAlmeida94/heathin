@@ -6,35 +6,55 @@
   <div class="actions">
     <button *ngIf="formGroup.disabled"
             mat-raised-button
-            (click)="formGroup.enable()"
+            (click)="changeToEditMode()"
             color="primary">Edit</button>
     <button *ngIf="formGroup.enabled"
             mat-raised-button
-          (click)="formGroup.disable()"
-          color="primary">Save</button>
+            (click)="save()"
+            [disabled]="formGroup.invalid"
+            color="primary">Save</button>
   </div>
   <form [formGroup]="formGroup">
     <h4>Main Data</h4>
-    <mat-form-field appearance="outline">
-      <mat-label>Name</mat-label>
-      <input matInput
-             formControlName="name">
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Document Type</mat-label>
-      <input matInput
-             formControlName="documentType">
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Document</mat-label>
-      <input matInput
-             formControlName="document">
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>E-mail</mat-label>
-      <input matInput
-             formControlName="email">
-    </mat-form-field>
+    <div class="main-data">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput
+               formControlName="name">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Document Type</mat-label>
+        <input matInput
+               formControlName="documentType">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Document</mat-label>
+        <input matInput
+               formControlName="document">
+      </mat-form-field>
+  
+      <div class="radio-field">
+        <label id="notification">Notification</label>
+        <mat-radio-group
+          class="radio-group"
+          aria-labelledby="notification"
+          aria-label="Notification"
+          formControlName="notification">
+          <mat-radio-button
+            class="radio-button"
+            value="email">E-mail</mat-radio-button>
+          <mat-radio-button
+            class="radio-button"
+            value="phone">Phone</mat-radio-button>
+        </mat-radio-group>
+      </div>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input matInput
+               formControlName="email">
+      </mat-form-field>
+    </div>
 
     <div class="section">
       Phones
@@ -66,4 +86,3 @@
 </div>
 
 {{ formGroup.value | json}}
-{{ formGroup.errors | json}}

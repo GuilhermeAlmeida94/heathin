@@ -7,6 +7,24 @@
     flex-direction: row;
     justify-content: flex-end;
 }
+.main-data {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.radio-field {
+    display: flex;
+    flex-direction: column;
+}
+.radio-group {
+    display: flex;
+    flex-direction: row;
+}
+.radio-button {
+    margin-right: 1vh;
+}
+
 .section {
     height: 5vh;
     display: flex;
