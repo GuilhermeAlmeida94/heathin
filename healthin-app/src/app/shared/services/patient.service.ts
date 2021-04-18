@@ -6,7 +6,7 @@ import { Patient } from '../interfaces/patient';
 const patients: Patient[] = [
   {id: '1',
     name: 'Will',
-    documentType: 'CPF',
+    documentType: 'cpf',
     document: '87050602060',
     notification: 'email',
     email: 'test@gmail.com',
@@ -16,7 +16,7 @@ const patients: Patient[] = [
     ]
   }  as Patient,
   {id: '2', name: 'Wanessa',
-    documentType: 'CNPJ',
+    documentType: 'cnpj',
     document: '11444777000161',
     notification: 'phones',
     phones: [
@@ -24,7 +24,7 @@ const patients: Patient[] = [
   }  as Patient,
   {
     id: '3', name: 'Joanne',
-    documentType: 'CNPJ',
+    documentType: 'cnpj',
     document: '20458214000113'
   } as Patient,
   {id: '4', name: 'Michael', document: '4444444444444444'} as Patient,

@@ -1,9 +1,21 @@
-import { FormControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export class MyValidators {
     public static noWhitespace(control: FormControl): ValidationErrors | null {
         const isValid = (control.value || '').trim().length !== 0;
         return isValid ? null : { whitespace: true };
+    }
+
+    public static documentType(documentType: string): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            if (documentType === 'cpf') {
+                return MyValidators.cpf(control as FormControl);
+            }
+            if (documentType === 'cnpj') {
+                return MyValidators.cnpj(control as FormControl);
+            }
+            return null;
+        };
     }
 
     public static cpf(control: FormControl): ValidationErrors | null {

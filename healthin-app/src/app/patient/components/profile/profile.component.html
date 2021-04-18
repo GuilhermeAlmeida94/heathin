@@ -22,11 +22,19 @@
         <input matInput
                formControlName="name">
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>Document Type</mat-label>
-        <input matInput
-               formControlName="documentType">
+        <mat-select formControlName="documentType">
+          <mat-option>
+            Select a Document Type
+          </mat-option>
+          <mat-option *ngFor="let documentType of documentTypes" [value]="documentType.value">
+            {{documentType.text}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>Document</mat-label>
         <input matInput

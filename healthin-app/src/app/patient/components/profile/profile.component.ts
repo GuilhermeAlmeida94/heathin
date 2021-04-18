@@ -15,6 +15,10 @@ export class ProfileComponent implements OnInit, OnChanges {
 
   formGroup: FormGroup;
   patient: Patient;
+  documentTypes = [
+    { value: 'cnpj', text: 'CNPJ' },
+    { value: 'cpf', text: 'CPF' }
+  ];
 
   constructor(
     private patientService: PatientService,
@@ -31,12 +35,15 @@ export class ProfileComponent implements OnInit, OnChanges {
     });
 
     this.formGroup.get('notification').valueChanges.subscribe(
-      value => this.setNotification(value)
+      value => this.setEmailPhoneValidator(value)
+    );
+    this.formGroup.get('documentType').valueChanges.subscribe(
+      value => this.setDocumentTypeValidator(value)
     );
     this.getPatient();
   }
 
-  setNotification(notificationType: string): void {
+  setEmailPhoneValidator(notificationType: string): void {
     const email = this.formGroup.get('email');
     const phones = this.formGroup.get('phones');
     if (notificationType === 'email') {
@@ -51,9 +58,17 @@ export class ProfileComponent implements OnInit, OnChanges {
     phones.updateValueAndValidity();
   }
 
-  get len(): number {
-    return (this.formGroup.get('phones') as FormArray).length;
+  setDocumentTypeValidator(documentType: string): void {
+    const documentForm = this.formGroup.get('document');
+    documentForm.setValidators(
+      [
+        Validators.required,
+        MyValidators.noWhitespace,
+        MyValidators.documentType(documentType)
+      ]);
+    documentForm.updateValueAndValidity();
   }
+
   get phones(): FormArray {
     return this.formGroup.get('phones') as FormArray;
   }
@@ -95,7 +110,6 @@ export class ProfileComponent implements OnInit, OnChanges {
           value => this.patient = value
         );
 
-      this.updateDocumentTypeValidator();
       this.formGroup.patchValue({
         name: this.patient.name,
         documentType: this.patient.documentType,
@@ -108,19 +122,6 @@ export class ProfileComponent implements OnInit, OnChanges {
       this.formGroup.setControl('phones',
         this.buildPhones(this.patient.phones || []));
     }
-  }
-
-  private updateDocumentTypeValidator(): void {
-    const documentForm = this.formGroup.get('document');
-    if (this.patient.documentType === 'CPF') {
-      documentForm.setValidators(
-        [Validators.required, MyValidators.noWhitespace, MyValidators.cpf]);
-    }
-    if (this.patient.documentType === 'CNPJ') {
-      documentForm.setValidators(
-        [Validators.required, MyValidators.noWhitespace, MyValidators.cnpj]);
-    }
-    documentForm.updateValueAndValidity();
   }
 
   changeToEditMode(): void {
