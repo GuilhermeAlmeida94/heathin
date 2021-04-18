@@ -5,6 +5,7 @@ export interface Patient {
     name: string;
     documentType: string;
     document: string;
+    notification: string;
     email: string;
     phones: Phone[];
 }

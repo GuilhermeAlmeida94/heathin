@@ -100,6 +100,7 @@ export class ProfileComponent implements OnInit, OnChanges {
         name: this.patient.name,
         documentType: this.patient.documentType,
         document: this.patient.document,
+        notification: this.patient.notification,
         email: this.patient.email
       });
 

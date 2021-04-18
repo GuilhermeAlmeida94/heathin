@@ -8,6 +8,7 @@ const patients: Patient[] = [
     name: 'Will',
     documentType: 'CPF',
     document: '87050602060',
+    notification: 'email',
     email: 'test@gmail.com',
     phones: [
       { type: 'Home', number: '12121212' },
@@ -17,6 +18,7 @@ const patients: Patient[] = [
   {id: '2', name: 'Wanessa',
     documentType: 'CNPJ',
     document: '11444777000161',
+    notification: 'phones',
     phones: [
       { type: 'Cellphone', number: '34343434' } ]
   }  as Patient,
