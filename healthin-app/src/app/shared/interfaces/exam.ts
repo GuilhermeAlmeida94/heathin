@@ -12,4 +12,5 @@ export interface Exam {
     do_data: string;
     do_doctor_id: string;
     do_doctor_name: string;
+    contribution: number;
 }

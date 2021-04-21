@@ -1,11 +1,11 @@
-<div *ngIf="!exams" class="center-spinner mt-3">
+<div *ngIf="!(exams$ | async)" class="center-spinner mt-3">
   <mat-spinner></mat-spinner>
 </div>
 <!-- <mat-list role="list">
   <mat-list-item *ngFor="let exam of exams" role="listitem">{{exam.name}}</mat-list-item>
 </mat-list> -->
 <mat-accordion>
-  <mat-expansion-panel hideToggle  *ngFor="let exam of exams">
+  <mat-expansion-panel hideToggle  *ngFor="let exam of exams$ | async as exams">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{ exam.name }}
@@ -15,5 +15,6 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     <p>Doctor: {{ exam.do_doctor_name }}</p>
+    <p>Contribution: {{ exam.contribution | currency}}</p>
   </mat-expansion-panel>
 </mat-accordion>
