@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Exam } from 'src/app/shared/interfaces/exam';
-import { ExamService } from 'src/app/shared/services/exam.service';
+import { ExamRealized } from 'src/app/shared/interfaces/exam-realized';
+import { ExamRealizedService } from 'src/app/shared/services/exam-realized.service';
 
 @Component({
   selector: 'app-exams',
@@ -11,13 +12,13 @@ import { ExamService } from 'src/app/shared/services/exam.service';
 export class ExamsComponent implements OnChanges {
   @Input() patientId: string;
 
-  exams$: Observable<Exam[]>;
+  examsRealized$: Observable<ExamRealized[]>;
 
-  constructor(private examService: ExamService) { }
+  constructor(private examRealizedService: ExamRealizedService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.patientId) {
-      this.exams$ = this.examService.getByPatientId(this.patientId);
+      this.examsRealized$ = this.examRealizedService.getByPatientId(this.patientId);
     }
   }
 }

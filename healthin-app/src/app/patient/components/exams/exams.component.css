@@ -1,4 +1,5 @@
 .center-spinner {
   display: flex;
   justify-content: center;
+  height: 200px;
 }

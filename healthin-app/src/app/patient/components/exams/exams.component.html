@@ -1,20 +1,20 @@
-<div *ngIf="!(exams$ | async)" class="center-spinner mt-3">
+<div *ngIf="!(examsRealized$ | async)" class="center-spinner mt-3">
   <mat-spinner></mat-spinner>
 </div>
 <!-- <mat-list role="list">
   <mat-list-item *ngFor="let exam of exams" role="listitem">{{exam.name}}</mat-list-item>
 </mat-list> -->
 <mat-accordion>
-  <mat-expansion-panel hideToggle  *ngFor="let exam of exams$ | async as exams">
+  <mat-expansion-panel hideToggle  *ngFor="let examRealized of examsRealized$ | async as examsRealized">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{ exam.name }}
+        {{ examRealized.exam_name }}
       </mat-panel-title>
       <mat-panel-description>
-        Realized in {{ exam.do_data }}
+        Realized in {{ examRealized.do_data }}
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <p>Doctor: {{ exam.do_doctor_name }}</p>
-    <p>Contribution: {{ exam.contribution | currency}}</p>
+    <p>Doctor: {{ examRealized.do_doctor_name }}</p>
+    <p>Contribution: {{ examRealized.contribution | currency}}</p>
   </mat-expansion-panel>
 </mat-accordion>
