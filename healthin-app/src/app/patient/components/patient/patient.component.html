@@ -29,10 +29,9 @@
             #auto="matAutocomplete"
             [displayWith]="getOptionName"
             (optionSelected)="optionSelected($event.option.value)">
-            <mat-option *ngFor="let patientOption of patientOptions$ | async"
-              [value]="patientOption"
-              >
-              {{patientOption.name}}
+            <mat-option *ngFor="let patient of patients$ | async"
+              [value]="patient">
+              {{ patient.name }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
