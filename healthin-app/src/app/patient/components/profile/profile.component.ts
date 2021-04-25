@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Patient } from 'src/app/shared/interfaces/patient';
 import { Phone } from 'src/app/shared/interfaces/phone';
@@ -98,29 +98,32 @@ export class ProfileComponent implements OnInit, OnChanges {
     return phonesFormArray;
   }
 
-  ngOnChanges(): void {
-    this.patient = null;
-    this.getPatient();
+  ngOnChanges(simpleChanges: SimpleChanges): void {
+    if (simpleChanges.patientId) {
+      this.patient = null;
+      this.getPatient();
+    }
   }
 
-  async getPatient(): Promise<void> {
-    if (!this.patient) {
-      await this.patientService.getByPatientId(this.patientId)
-        .subscribe(
-          value => this.patient = value
-        );
+  getPatient(): void {
+    this.patientService.getByPatientId(this.patientId)
+      .subscribe(patient => this.setFormGroupValue(patient));
+  }
 
+  setFormGroupValue(patient: Patient): void {
+    if (this.formGroup) {
       this.formGroup.patchValue({
-        name: this.patient.name,
-        documentType: this.patient.documentType,
-        document: this.patient.document,
-        notification: this.patient.notification,
-        email: this.patient.email
+        name: patient.name,
+        documentType: patient.documentType,
+        document: patient.document,
+        notification: patient.notification,
+        email: patient.email
       });
 
-
       this.formGroup.setControl('phones',
-        this.buildPhones(this.patient.phones || []));
+        this.buildPhones(patient.phones || []));
+
+      this.patient = patient;
     }
   }
 
