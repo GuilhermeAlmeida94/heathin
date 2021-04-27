@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, of } from 'rxjs';
+import { of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { delay, map } from 'rxjs/operators';
 import { ExamRealized } from '../interfaces/exam-realized';
-import { ExamService } from './exam.service';
 
 const examsRealizedData: ExamRealized[] =
   [
@@ -27,27 +26,13 @@ const examsRealizedData: ExamRealized[] =
 })
 export class ExamRealizedService {
 
-  constructor(private examService: ExamService) { }
+  constructor() { }
 
   getByPatientId(patientId: string): Observable<ExamRealized[]> {
-    const getExamsByPatientId$ = of(examsRealizedData.filter(x => x.patient_id === patientId));
-    const getAllExams$ = this.examService.getAll()
-      .pipe(
-        delay(4000)
-      );
-
-    return combineLatest([getExamsByPatientId$, getAllExams$]) // waits all observables first return to emit
-      .pipe(
-        map(([examsRealized, exams]) =>
-          examsRealized.map(examRealized => {
-            return {
-              ...examRealized,
-              exam_name: exams.find(exam => exam.id === examRealized.exam_id).name,
-              contribution: examRealized.contribution ? examRealized.contribution / 100 : 0
-            } as ExamRealized;
-          })),
-        delay(2000)
-      );
+    return of(examsRealizedData.filter(x => x.patient_id === patientId))
+    .pipe(
+      delay(4000)
+    );
   }
 
 }

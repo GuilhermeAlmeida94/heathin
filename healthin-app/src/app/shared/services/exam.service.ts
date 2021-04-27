@@ -21,6 +21,9 @@ export class ExamService {
   }
 
   getByExamId(examId: string): Observable<Exam> {
-    return of(exams.find(x => x.id === examId));
+    return of(exams.find(x => x.id === examId))
+      .pipe(
+        delay(2000)
+      );
   }
 }
