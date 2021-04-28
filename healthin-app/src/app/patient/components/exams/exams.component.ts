@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { catchError, map } from 'rxjs/operators';
 import { ExamRealized } from 'src/app/shared/interfaces/exam-realized';
 import { ExamRealizedService } from 'src/app/shared/services/exam-realized.service';
-import { ExamService } from 'src/app/shared/services/exam.service';
+import { ExamTypeService } from 'src/app/shared/services/exam-type.service';
 
 @Component({
   selector: 'app-exams',
@@ -30,7 +30,7 @@ export class ExamsComponent implements OnChanges {
   examsRealized$: Observable<ExamRealized[]>;
 
   constructor(private examRealizedService: ExamRealizedService,
-              private examTypeService: ExamService) { }
+              private examTypeService: ExamTypeService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.patientId) {

@@ -1,27 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
+import { ExamTypeData } from '../fake-data/exam-type.data';
 import { Exam } from '../interfaces/exam';
-
-const exams: Exam[] =
-  [
-    { id: '1', name: 'Tomography', value: 200 } as Exam,
-    { id: '2', name: 'Laryngoscopy', value: 500 }  as Exam
-  ];
 
 @Injectable({
   providedIn: 'root'
 })
-export class ExamService {
+export class ExamTypeService {
 
   constructor() { }
 
   getAll(): Observable<Exam[]> {
-    return of(exams);
+    return of(ExamTypeData);
   }
 
   getByExamId(examId: string): Observable<Exam> {
-    return of(exams.find(x => x.id === examId))
+    return of(ExamTypeData.find(x => x.id === examId))
       .pipe(
         delay(2000)
       );
