@@ -13,7 +13,7 @@ export class ExamRealizedService {
   constructor() { }
 
   getByPatientId(patientId: string): Observable<ExamRealized[]> {
-    return of(ExamRealizedData.filter(x => x.patient_id === patientId))
+    return of(ExamRealizedData.filter(x => x.patientId === patientId))
     .pipe(
       delay(4000)
     );

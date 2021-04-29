@@ -1,0 +1,24 @@
+.payments-list {
+    width: 30%;
+}
+
+.available {
+    background-color: #d4e5eb;
+}
+.payed {
+    background-color: #D4EBD4;
+}
+.delayed {
+    background-color: #F9DFE1;
+}
+.not-payed {
+    background-color: #EFEED8;
+}
+
+.table-text-right {
+    text-align: right;
+    padding-right: 1em;
+}
+.table-center {
+    text-align: center;
+}

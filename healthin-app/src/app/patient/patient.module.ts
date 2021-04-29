@@ -5,6 +5,7 @@ import { PatientRoutingModule } from './patient-routing.module';
 import { PatientComponent } from './components/patient/patient.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ExamsComponent } from './components/exams/exams.component';
+import { PaymentsComponent } from './components/payments/payments.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { ExamsComponent } from './components/exams/exams.component';
   declarations: [
     PatientComponent,
     ProfileComponent,
-    ExamsComponent
+    ExamsComponent,
+    PaymentsComponent
   ]
 })
 export class PatientModule { }

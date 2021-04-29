@@ -1,6 +1,6 @@
 export interface Payment {
-    patient_id: string;
+    patientId: string;
     value: number;
-    expiration_date: string;
-    payment_date: string;
+    expirationDate: Date;
+    paymentDate: Date;
 }

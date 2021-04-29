@@ -1,0 +1,37 @@
+<div>{{ errorMessage }}</div>
+<table mat-table
+       [dataSource]="data"
+       class="mat-elevation-z8 payments-list">
+
+  <ng-container matColumnDef="expirationDate">
+    <th mat-header-cell *matHeaderCellDef> Expiration </th>
+    <td mat-cell *matCellDef="let payment"> {{payment.expirationDate | dateTimeFormatPipe }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="value">
+    <th mat-header-cell *matHeaderCellDef class="table-text-center"> Value </th>
+    <td mat-cell *matCellDef="let payment" class="table-text-center"> {{payment.value | currency}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef class="table-text-right"> Status </th>
+    <td mat-cell *matCellDef="let payment" class="table-text-right">
+      {{ paymentStatus(payment).description }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="statusColor">
+    <th mat-header-cell *matHeaderCellDef> </th>
+    <td mat-cell *matCellDef="let payment" [ngClass]="paymentStatus(payment).styleClass">
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator *ngIf="data.page$ | async as page"
+  class="mat-elevation-z8 payments-list"
+  [length]="page.totalElements" [pageSize]="page.size"
+  [pageIndex]="page.number" [hidePageSize]="true" 
+  (page)="data.fetch($event.pageIndex)">
+</mat-paginator>

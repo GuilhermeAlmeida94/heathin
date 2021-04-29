@@ -16,7 +16,7 @@ export class ExamsComponent implements OnChanges {
 
   errorMessage: any;
 
-  examsRealizedById$: Observable<ExamRealized[]>;
+  examsRealizedByPatientId$: Observable<ExamRealized[]>;
   examsType$ = this.examTypeService.getAll()
     .pipe(
       catchError(err => {
@@ -34,7 +34,7 @@ export class ExamsComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.patientId) {
-      this.examsRealizedById$ = this.examRealizedService.getByPatientId(this.patientId)
+      this.examsRealizedByPatientId$ = this.examRealizedService.getByPatientId(this.patientId)
       .pipe(
         catchError(err => {
           this.errorMessage = err;
@@ -43,16 +43,16 @@ export class ExamsComponent implements OnChanges {
       );
 
       this.examsRealized$ =
-        combineLatest([this.examsRealizedById$, this.examsType$, this.examTypeAction$])
+        combineLatest([this.examsRealizedByPatientId$, this.examsType$, this.examTypeAction$])
         .pipe(
           map(([examsRealized, examsType, examTypeId]) => {
             examsRealized = examsRealized
-              .filter(examRealized => !examTypeId || examRealized.exam_id === examTypeId);
+              .filter(examRealized => !examTypeId || examRealized.examId === examTypeId);
 
             return examsRealized.map(examRealized =>
               ({
                 ...examRealized,
-                exam_name: examsType.find(exam => exam.id === examRealized.exam_id).name,
+                examName: examsType.find(exam => exam.id === examRealized.examId).name,
                 contribution: examRealized.contribution ? examRealized.contribution / 100 : 0
               }) as ExamRealized
             );

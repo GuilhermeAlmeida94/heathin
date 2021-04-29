@@ -49,6 +49,11 @@
               <app-exams [patientId]="patientId"></app-exams>
             </ng-template>
           </mat-tab>
+          <mat-tab label="Payment">
+            <ng-template matTabContent>
+              <app-payments [patientId]="patientId"></app-payments>
+            </ng-template>
+          </mat-tab>
         </mat-tab-group>
         
         <!-- <nav mat-tab-nav-bar>
