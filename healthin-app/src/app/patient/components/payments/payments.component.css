@@ -1,5 +1,13 @@
+.mat-table {
+    width: 100%;
+}
 .payments-list {
     width: 30%;
+    float: left;
+}
+.payment-detail {
+    width: 60%;
+    float: right;
 }
 
 .available {

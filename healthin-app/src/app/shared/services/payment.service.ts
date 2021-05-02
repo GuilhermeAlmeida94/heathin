@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { delay, skip, take, tap } from 'rxjs/operators';
 import { PaymentData } from '../fake-data/payment.data';
 import { PaginatedData } from '../interfaces/pagination/paginated-data';
 import { Page, PageRequest } from '../interfaces/pagination/page';
@@ -18,8 +18,10 @@ export class PaymentService {
       .filter(x => x.patientId === patientId)
       .sort((a, b) => a.expirationDate > b.expirationDate ? -1 : 0)
 
-  getByPatientId(patientId: string): Observable<Payment[]> {
-    return of(this.filterData(patientId));
+  getByPatientId(patientId: string, skipValue?: number, takeValue?: number): Observable<Payment[]> {
+    skipValue = skipValue || 0;
+    takeValue = takeValue || 0;
+    return of(this.filterData(patientId).slice(skipValue, takeValue + skipValue));
   }
 
   getByPatientIdPaginated(patientId: string, request: PageRequest<Payment>): Observable<Page<Payment>> {
