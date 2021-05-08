@@ -1,4 +1,4 @@
-export interface Exam {
+export interface ExamType {
     id: string;
     name: string;
     value: number;

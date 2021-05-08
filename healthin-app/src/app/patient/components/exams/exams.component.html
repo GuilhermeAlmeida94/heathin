@@ -1,35 +1,33 @@
-
-<!-- <mat-list role="list">
-  <mat-list-item *ngFor="let exam of exams" role="listitem">{{exam.name}}</mat-list-item>
-</mat-list> -->
 <mat-form-field appearance="outline">
   <mat-label>Exam Type</mat-label>
   <mat-select (selectionChange)="examTypeChanges($event)">
     <mat-option>Select an exam type</mat-option>
     <mat-option
-      *ngFor="let examType of examsType$ | async as examsType"
+      *ngFor="let examType of examTypes$ | async"
       [value]="examType.id">
       {{ examType.name }}
     </mat-option>
   </mat-select>
 </mat-form-field>
 
-<div *ngIf="!(examsRealized$ | async)" class="center-spinner mt-3">
-  <mat-spinner></mat-spinner>
-</div>
 <div *ngIf="examsRealized$ | async as examsRealized">
-  <mat-accordion>
-    <mat-expansion-panel hideToggle  *ngFor="let examRealized of examsRealized">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{ examRealized.examName }}
-        </mat-panel-title>
-        <mat-panel-description>
-          Realized in {{ examRealized.doData | dateTimeFormatPipe }}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>Doctor: {{ examRealized.doDoctorName }}</p>
-      <p>Contribution: {{ examRealized.contribution | currency}}</p>
-    </mat-expansion-panel>
-  </mat-accordion>
+  <div *ngIf="examsRealized.isLoading" class="center-spinner mt-3">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div *ngIf="!examsRealized.isLoading">
+    <mat-accordion>
+      <mat-expansion-panel hideToggle  *ngFor="let examRealized of examsRealized.value">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ examRealized.examName }}
+          </mat-panel-title>
+          <mat-panel-description>
+            Realized in {{ examRealized.doData | dateTimeFormatPipe }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>Doctor: {{ examRealized.doDoctorName }}</p>
+        <p>Contribution: {{ examRealized.contribution | currency}}</p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </div>
