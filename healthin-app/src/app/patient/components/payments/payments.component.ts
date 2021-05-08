@@ -33,25 +33,26 @@ export class PaymentsComponent implements OnChanges {
       this.paymentSelected$ =
         combineLatest([
           this.paymentsByPatientId$,
-          this.paymentSelectedAction$])
-          .pipe(
-            map(([payments, paymentId]) => {
-              const payment = payments.find(paymentItem => paymentItem.patientId === paymentId);
-              const day = new Date(payment.expirationDate).getDate();
-              const monthNames = [
-                'January', 'February', 'March', 'April', 'May', 'June',
-                'July', 'August', 'September', 'October', 'November', 'December'
-              ];
-              return {
-                statusDescription: this.paymentStatus(payment).description,
-                referenceMonth: monthNames[new Date(payment.expirationDate).getMonth()],
-                referenceDay:
-                  day === 1 ? '1st' :
-                  day === 2 ? '2nd' :
-                  day.toString()
-              } as PaymentSelected;
-             })
-          );
+          this.paymentSelectedAction$
+        ]).pipe(
+          map(([payments, paymentId]) => {
+            const payment = payments.find(paymentItem => paymentItem.paymentId === paymentId);
+            const expirationDate = new Date(payment.expirationDate);
+            const day = expirationDate.getDate();
+            const monthNames = [
+              'January', 'February', 'March', 'April', 'May', 'June',
+              'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            return {
+              statusDescription: this.paymentStatus(payment).description,
+              referenceMonth: monthNames[expirationDate.getMonth()],
+              referenceDay:
+                day === 1 ? '1st' :
+                day === 2 ? '2nd' :
+                day.toString()
+            } as PaymentSelected;
+          })
+        );
     }
   }
 
@@ -66,6 +67,6 @@ export class PaymentsComponent implements OnChanges {
   }
 
   selectPayment(payment: Payment): void {
-    this.paymentSelectedSubject.next(payment.patientId);
+    this.paymentSelectedSubject.next(payment.paymentId);
   }
 }
