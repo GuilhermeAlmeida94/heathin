@@ -1,10 +1,8 @@
 import { Input, Component, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PaginatedData } from 'src/app/shared/interfaces/pagination/paginated-data';
 import { Payment } from 'src/app/shared/interfaces/payment';
 import { PaymentSelected } from 'src/app/shared/interfaces/payment-selected';
-import { PaginatedDataSource } from 'src/app/shared/paginated-data-source';
 import { PaymentService } from 'src/app/shared/services/payment.service';
 
 @Component({
@@ -17,7 +15,6 @@ export class PaymentsComponent implements OnChanges {
   @Input() patientId: string;
 
   errorMessage: any;
-  data: PaginatedDataSource<Payment>;
 
   paymentsByPatientId$: Observable<Payment[]>;
   paymentSelectedSubject = new Subject<string>();

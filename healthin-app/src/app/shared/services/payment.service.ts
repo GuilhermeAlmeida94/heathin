@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { delay, filter, map, skip, take, tap } from 'rxjs/operators';
-import { PaginatedData } from '../interfaces/pagination/paginated-data';
-import { Page, PageRequest } from '../interfaces/pagination/page';
+import { map } from 'rxjs/operators';
 import { Payment } from '../interfaces/payment';
 import { HttpClient } from '@angular/common/http';
 
