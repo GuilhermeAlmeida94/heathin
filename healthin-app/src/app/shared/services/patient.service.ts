@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { PatientData } from '../fake-data/patient.data';
+import { map } from 'rxjs/operators';
 import { Patient } from '../interfaces/patient';
 
 @Injectable({
@@ -8,16 +9,19 @@ import { Patient } from '../interfaces/patient';
 })
 export class PatientService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getByPatientId(patientId: string): Observable<Patient> {
-    return of(PatientData.find(x => x.id === patientId));
+    return this.http.get<Patient>(`api/patients/${patientId}`);
   }
 
   getByName(name: string): Observable<Patient[]> {
     if (name && name !== '') {
       const lowerName = name.toLowerCase();
-      return of(PatientData.filter(x => x.name.toLocaleLowerCase().includes(lowerName)));
+      return this.http.get<Patient[]>('api/patients')
+        .pipe(
+          map(patients => patients.filter(patient => patient.name.toLocaleLowerCase().includes(lowerName)))
+        );
     }
     else {
       return of(null);

@@ -2,7 +2,8 @@ import { Patient } from '../interfaces/patient';
 
 export const PatientData: Patient[] =
 [
-  {id: '1',
+  {
+    id: '1',
     name: 'Will',
     documentType: 'cpf',
     document: '87050602060',

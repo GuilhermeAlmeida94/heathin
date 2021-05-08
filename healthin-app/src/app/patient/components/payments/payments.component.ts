@@ -30,12 +30,6 @@ export class PaymentsComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.patientId) {
-      this.data = new PaginatedDataSource<Payment>(
-        request => this.paymentService.getByPatientIdPaginated(changes.patientId.currentValue, request),
-        {property: 'expirationDate', order: 'desc'},
-        5
-      );
-
       this.paymentsByPatientId$ = this.paymentService
         .getByPatientId(changes.patientId.currentValue, 0, 5);
 
@@ -46,14 +40,14 @@ export class PaymentsComponent implements OnChanges {
           .pipe(
             map(([payments, paymentId]) => {
               const payment = payments.find(paymentItem => paymentItem.patientId === paymentId);
-              const day = payment.expirationDate.getDate();
+              const day = new Date(payment.expirationDate).getDate();
               const monthNames = [
                 'January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December'
               ];
               return {
                 statusDescription: this.paymentStatus(payment).description,
-                referenceMonth: monthNames[payment.expirationDate.getMonth()],
+                referenceMonth: monthNames[new Date(payment.expirationDate).getMonth()],
                 referenceDay:
                   day === 1 ? '1st' :
                   day === 2 ? '2nd' :
@@ -66,10 +60,10 @@ export class PaymentsComponent implements OnChanges {
 
   paymentStatus(payment: Payment): any {
     return (!payment.paymentDate)
-      ? (payment.expirationDate.getTime() < Date.now())
+      ? (new Date(payment.expirationDate).getTime() < Date.now())
         ?  { description: 'Not Payed', styleClass: 'not-payed' }
         :  { description: '', styleClass: 'available' }
-      :  (payment.paymentDate.getTime() > payment.expirationDate.getTime())
+      :  (new Date(payment.paymentDate).getTime() > new Date(payment.expirationDate).getTime())
         ? { description: 'Delayed', styleClass: 'delayed' }
         : { description: 'Payed', styleClass: 'payed' };
   }

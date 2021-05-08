@@ -1,7 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
-import { ExamTypeData } from '../fake-data/exam-type.data';
+import { Observable } from 'rxjs';
 import { Exam } from '../interfaces/exam';
 
 @Injectable({
@@ -9,16 +8,13 @@ import { Exam } from '../interfaces/exam';
 })
 export class ExamTypeService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getAll(): Observable<Exam[]> {
-    return of(ExamTypeData);
+    return this.http.get<Exam[]>('api/examTypes');
   }
 
   getByExamId(examId: string): Observable<Exam> {
-    return of(ExamTypeData.find(x => x.id === examId))
-      .pipe(
-        delay(2000)
-      );
+    return this.http.get<Exam>(`api/examTypes?id=${examId}`);
   }
 }

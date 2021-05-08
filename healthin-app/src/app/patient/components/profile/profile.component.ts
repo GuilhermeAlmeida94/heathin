@@ -107,7 +107,9 @@ export class ProfileComponent implements OnInit, OnChanges {
 
   getPatient(): void {
     this.patientService.getByPatientId(this.patientId)
-      .subscribe(patient => this.setFormGroupValue(patient));
+      .subscribe(patient => {
+        return this.setFormGroupValue(patient);
+      });
   }
 
   setFormGroupValue(patient: Patient): void {

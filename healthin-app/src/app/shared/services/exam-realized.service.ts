@@ -1,8 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { delay } from 'rxjs/operators';
-import { ExamRealizedData } from '../fake-data/exam-realized.data';
 import { ExamRealized } from '../interfaces/exam-realized';
 
 @Injectable({
@@ -10,13 +8,10 @@ import { ExamRealized } from '../interfaces/exam-realized';
 })
 export class ExamRealizedService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getByPatientId(patientId: string): Observable<ExamRealized[]> {
-    return of(ExamRealizedData.filter(x => x.patientId === patientId))
-    .pipe(
-      delay(4000)
-    );
+    return this.http.get<ExamRealized[]>(`api/examsRealized?patientId=${patientId}`);
   }
 
 }
