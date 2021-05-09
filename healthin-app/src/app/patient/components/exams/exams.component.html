@@ -3,7 +3,7 @@
   <mat-select (selectionChange)="examTypeChanges($event)">
     <mat-option>Select an exam type</mat-option>
     <mat-option
-      *ngFor="let examType of examTypes$ | async"
+      *ngFor="let examType of (storeShared$ | async).examTypes"
       [value]="examType.id">
       {{ examType.name }}
     </mat-option>
