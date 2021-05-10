@@ -29,7 +29,6 @@ export class ProfileComponent implements OnInit, OnChanges {
 
   examTypes$ = this.examTypeService.getAll()
     .pipe(
-      startWith([] as ExamType[]),
       catchError(err => {
         this.errorMessage = err;
         return EMPTY;
