@@ -2,12 +2,10 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { combineLatest, EMPTY, Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { catchError, map, startWith } from 'rxjs/operators';
-import { ExamType } from 'src/app/shared/interfaces/exam-type';
 import { ExamRealized } from 'src/app/shared/interfaces/exam-realized';
 import { ExamRealizedService } from 'src/app/shared/services/exam-realized.service';
-import { ExamTypeService } from 'src/app/shared/services/exam-type.service';
 import { Store } from '@ngrx/store';
-import { examTypesSet } from 'src/app/shared/state/exam-types.action';
+import { State } from 'src/app/shared/interfaces/state';
 
 @Component({
   selector: 'app-exams',
@@ -27,7 +25,7 @@ export class ExamsComponent implements OnInit, OnChanges {
 
   storeShared$ = this.store.select('shared');
 
-  constructor(private store: Store<any>,
+  constructor(private store: Store<State>,
               private examRealizedService: ExamRealizedService) { }
 
   ngOnInit(): void { }

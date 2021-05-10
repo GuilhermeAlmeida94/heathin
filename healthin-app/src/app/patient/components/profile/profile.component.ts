@@ -2,10 +2,10 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { EMPTY } from 'rxjs';
-import { catchError, startWith } from 'rxjs/operators';
-import { ExamType } from 'src/app/shared/interfaces/exam-type';
+import { catchError } from 'rxjs/operators';
 import { Patient } from 'src/app/shared/interfaces/patient';
 import { Phone } from 'src/app/shared/interfaces/phone';
+import { State } from 'src/app/shared/interfaces/state';
 import { MyValidators } from 'src/app/shared/my-validators';
 import { ExamTypeService } from 'src/app/shared/services/exam-type.service';
 import { PatientService } from 'src/app/shared/services/patient.service';
@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     );
 
   constructor(
-    private store: Store<any>,
+    private store: Store<State>,
     private patientService: PatientService,
     private examTypeService: ExamTypeService,
     private formBuilder: FormBuilder) { }
