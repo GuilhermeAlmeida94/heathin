@@ -6,6 +6,7 @@ import { ExamRealized } from 'src/app/shared/interfaces/exam-realized';
 import { ExamRealizedService } from 'src/app/shared/services/exam-realized.service';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/shared/interfaces/state';
+import { getExamTypesState } from 'src/app/shared/state/exam-types.reducer';
 
 @Component({
   selector: 'app-exams',
@@ -23,7 +24,7 @@ export class ExamsComponent implements OnInit, OnChanges {
 
   examsRealized$: Observable<any>;
 
-  storeShared$ = this.store.select('shared');
+  storeShared$ = this.store.select(getExamTypesState);
 
   constructor(private store: Store<State>,
               private examRealizedService: ExamRealizedService) { }
@@ -44,16 +45,16 @@ export class ExamsComponent implements OnInit, OnChanges {
       this.examsRealized$ =
         combineLatest([this.examsRealizedByPatientId$, this.storeShared$, this.examTypeAction$])
         .pipe(
-          map(([examsRealized, storeShared, examTypeId]) => {
+          map(([examsRealized, examTypes, examTypeId]) => {
             let isLoading = true;
-            if (!!examsRealized && storeShared.examTypes.length > 0) {
+            if (!!examsRealized && examTypes.length > 0) {
               examsRealized = examsRealized
                 .filter(examRealized => !examTypeId || examRealized.examId === examTypeId);
 
               examsRealized = examsRealized.map(examRealized =>
                 ({
                   ...examRealized,
-                  examName: storeShared.examTypes.find(exam => exam.id === examRealized.examId).name,
+                  examName: examTypes.find(exam => exam.id === examRealized.examId).name,
                   contribution: examRealized.contribution ? examRealized.contribution / 100 : 0
                 }) as ExamRealized
               );

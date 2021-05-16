@@ -1,5 +1,5 @@
-import { ShareState } from '../state/exam-types.reducer';
+import { SharedState } from '../state/exam-types.reducer';
 
 export interface State {
-    shared: ShareState;
+    shared: SharedState;
 }
