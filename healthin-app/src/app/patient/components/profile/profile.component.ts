@@ -9,7 +9,7 @@ import { State } from 'src/app/shared/interfaces/state';
 import { MyValidators } from 'src/app/shared/my-validators';
 import { ExamTypeService } from 'src/app/shared/services/exam-type.service';
 import { PatientService } from 'src/app/shared/services/patient.service';
-import { examTypesSet } from 'src/app/shared/state/exam-types.action';
+import * as ExamTypesActions from 'src/app/shared/state/exam-types.actions';
 
 @Component({
   selector: 'app-profile',
@@ -60,7 +60,9 @@ export class ProfileComponent implements OnInit, OnChanges {
     this.getPatient();
 
     this.examTypes$
-      .subscribe(examTypes => this.store.dispatch(examTypesSet({ examTypes })) );
+      .subscribe(examTypes =>
+        this.store.dispatch(ExamTypesActions.examTypesSet({ examTypes }))
+      );
   }
 
   setEmailPhoneValidator(notificationType: string): void {

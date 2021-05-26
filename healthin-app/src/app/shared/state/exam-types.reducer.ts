@@ -1,6 +1,6 @@
 import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import { ExamType } from '../interfaces/exam-type';
-import { examTypesSet } from './exam-types.action';
+import * as ExamTypesActions from './exam-types.actions';
 
 export interface SharedState {
   examTypes: ExamType[];
@@ -19,7 +19,7 @@ export const getExamTypesState = createSelector(
 
 export const ShareReducer = createReducer<SharedState>(
   initialState,
-  on(examTypesSet, (state, { examTypes }): SharedState => {
+  on(ExamTypesActions.examTypesSet, (state, { examTypes }): SharedState => {
     return ({
       ...state,
       examTypes
