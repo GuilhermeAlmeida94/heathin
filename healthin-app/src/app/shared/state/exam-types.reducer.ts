@@ -4,11 +4,13 @@ import * as ExamTypesActions from './exam-types.actions';
 
 export interface SharedState {
   examTypes: ExamType[];
+  examTypesError: string;
 }
 
 export const initialState: SharedState =
 {
-  examTypes: []
+  examTypes: [],
+  examTypesError: ''
 };
 
 const getSharedState = createFeatureSelector<SharedState>('shared');
@@ -16,13 +18,28 @@ export const getExamTypesState = createSelector(
   getSharedState,
   shared => shared.examTypes
 );
+export const getExamTypesErrorState = createSelector(
+  getSharedState,
+  shared => shared.examTypesError
+);
 
 export const ShareReducer = createReducer<SharedState>(
   initialState,
-  on(ExamTypesActions.examTypesSet, (state, { examTypes }): SharedState => {
+  on(ExamTypesActions.loadExamTypes, (state): SharedState => {
+    return (state);
+  }),
+  on(ExamTypesActions.loadExamTypesSuccess, (state, action): SharedState => {
     return ({
       ...state,
-      examTypes
+      examTypes: action.examTypes,
+      examTypesError: ''
+    });
+  }),
+  on(ExamTypesActions.loadExamTypesFailure, (state, action): SharedState => {
+    return ({
+      ...state,
+      examTypes: [],
+      examTypesError: action.examTypesError
     });
   })
 );

@@ -3,12 +3,15 @@
   <mat-select (selectionChange)="examTypeChanges($event)">
     <mat-option>Select an exam type</mat-option>
     <mat-option
-      *ngFor="let examType of (storeShared$ | async).examTypes"
+      *ngFor="let examType of examTypes$ | async"
       [value]="examType.id">
       {{ examType.name }}
     </mat-option>
   </mat-select>
 </mat-form-field>
+<span *ngIf="examTypesError$ | async as examTypesError">
+  Error: {{ examTypesError }}
+</span>
 
 <div *ngIf="examsRealized$ | async as examsRealized">
   <div *ngIf="examsRealized.isLoading" class="center-spinner mt-3">

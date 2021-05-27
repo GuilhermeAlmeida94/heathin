@@ -6,7 +6,7 @@ import { ExamRealized } from 'src/app/shared/interfaces/exam-realized';
 import { ExamRealizedService } from 'src/app/shared/services/exam-realized.service';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/shared/interfaces/state';
-import { getExamTypesState } from 'src/app/shared/state/exam-types.reducer';
+import { getExamTypesErrorState, getExamTypesState } from 'src/app/shared/state/exam-types.reducer';
 
 @Component({
   selector: 'app-exams',
@@ -24,7 +24,8 @@ export class ExamsComponent implements OnInit, OnChanges {
 
   examsRealized$: Observable<any>;
 
-  storeShared$ = this.store.select(getExamTypesState);
+  examTypes$ = this.store.select(getExamTypesState);
+  examTypesError$ = this.store.select(getExamTypesErrorState);
 
   constructor(private store: Store<State>,
               private examRealizedService: ExamRealizedService) { }
@@ -43,7 +44,7 @@ export class ExamsComponent implements OnInit, OnChanges {
       );
 
       this.examsRealized$ =
-        combineLatest([this.examsRealizedByPatientId$, this.storeShared$, this.examTypeAction$])
+        combineLatest([this.examsRealizedByPatientId$, this.examTypes$, this.examTypeAction$])
         .pipe(
           map(([examsRealized, examTypes, examTypeId]) => {
             let isLoading = true;

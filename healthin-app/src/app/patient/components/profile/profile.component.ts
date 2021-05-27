@@ -27,18 +27,9 @@ export class ProfileComponent implements OnInit, OnChanges {
     { value: 'cpf', text: 'CPF' }
   ];
 
-  examTypes$ = this.examTypeService.getAll()
-    .pipe(
-      catchError(err => {
-        this.errorMessage = err;
-        return EMPTY;
-      })
-    );
-
   constructor(
     private store: Store<State>,
     private patientService: PatientService,
-    private examTypeService: ExamTypeService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
@@ -59,10 +50,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     );
     this.getPatient();
 
-    this.examTypes$
-      .subscribe(examTypes =>
-        this.store.dispatch(ExamTypesActions.examTypesSet({ examTypes }))
-      );
+    this.store.dispatch(ExamTypesActions.loadExamTypes());
   }
 
   setEmailPhoneValidator(notificationType: string): void {
